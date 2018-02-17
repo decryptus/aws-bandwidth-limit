@@ -5,7 +5,6 @@
 # author      :Adrien DELLE CAVE (decryptus)
 # date        :2018-02-17
 # version     :0.1
-# url:        :https://github.com/decryptus/dw-aws-bandwidth-limit
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
@@ -22,7 +21,7 @@ DW_AWS_BL_IPS_URL="https://ip-ranges.amazonaws.com/ip-ranges.json"
 DW_AWS_BL_REGION="${DW_AWS_BL_REGION:-eu-west-3}"
 DW_AWS_BL_SERVICE="${DW_AWS_BL_SERVICE:-S3}"
 
-DW_AWS_BL_IPT_COMMENT="DW: ${DW_AWS_BL_SERVICE} Bandwidth Limit"
+DW_AWS_BL_IPT_COMMENT="DW: AWS ${DW_AWS_BL_SERVICE} Bandwidth Limit"
 DW_AWS_BL_IFACE="${DW_AWS_BL_IFACE:-eth0}"
 DW_AWS_BL_CLASS_ID="5"
 DW_AWS_BL_BITRATE="${DW_AWS_BL_BITRATE:-200mbit}"
@@ -44,5 +43,5 @@ for DW_AWS_BL_IP in `${DW_AWS_BL_CURL_BIN} -s "${DW_AWS_BL_IPS_URL}"|\
       select(.region==\"${DW_AWS_BL_REGION}\")|\
       select(.service==\"${DW_AWS_BL_SERVICE}\") | .ip_prefix"`
 do
-  ${DW_AWS_BL_IPT_BIN} -A OUTPUT -t mangle -d "${DW_AWS_BL_IP}" -j MARK --set-mark 5 -m comment --comment "${DW_AWS_BL_IPT_COMMENT}"
+  ${DW_AWS_BL_IPT_BIN} -A OUTPUT -t mangle -d "${DW_AWS_BL_IP}" -j MARK --set-mark ${DW_AWS_BL_CLASS_ID} -m comment --comment "${DW_AWS_BL_IPT_COMMENT}"
 done
