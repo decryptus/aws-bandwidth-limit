@@ -5,6 +5,7 @@
 # author      :Adrien DELLE CAVE (decryptus)
 # date        :2018-02-17
 # version     :0.1
+# url:        :https://github.com/decryptus/dw-aws-bandwidth-limit
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
