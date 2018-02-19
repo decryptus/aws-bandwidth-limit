@@ -40,8 +40,8 @@ ${DW_AWS_BL_IPT_BIN} -t mangle -L OUTPUT --line-numbers|\
 
 for DW_AWS_BL_IP in `${DW_AWS_BL_CURL_BIN} -s "${DW_AWS_BL_IPS_URL}"|\
   ${DW_AWS_BL_JQ_BIN} -r ".prefixes[]|\
-      select(.region==\"${DW_AWS_BL_REGION}\")|\
-      select(.service==\"${DW_AWS_BL_SERVICE}\") | .ip_prefix"`
+      select(.region==\"${DW_AWS_BL_REGION}\" and .service==\"${DW_AWS_BL_SERVICE}\")|\
+      .ip_prefix"`
 do
   ${DW_AWS_BL_IPT_BIN} -A OUTPUT -t mangle -d "${DW_AWS_BL_IP}" -j MARK --set-mark ${DW_AWS_BL_CLASS_ID} -m comment --comment "${DW_AWS_BL_IPT_COMMENT}"
 done
